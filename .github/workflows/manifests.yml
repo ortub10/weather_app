@@ -25,7 +25,7 @@ jobs:
         context: .
         push: true
         tags: |
-          orgitlab/hello:${{ github.sha }}
+          orgitlab/weather_app:${{ github.sha }}
           orgitlab/weather_app:latest
           
     - name: Update Kubernetes manifest
