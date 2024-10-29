@@ -1,0 +1,42 @@
+name: Manifests
+
+on:
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  update-manifests:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Login to Docker registry
+      uses: docker/login-action@v3
+      with:
+        username: orgitlab
+        password: ${{ secrets.DOCKER_PASSWORD }} # pragma: allowlist secret
+          
+    - name: Push Docker image to registry
+      uses: docker/build-push-action@v5
+      with:
+        context: .
+        push: true
+        tags: |
+          orgitlab/hello:${{ github.sha }}
+          orgitlab/weather_app:latest
+          
+    - name: Update Kubernetes manifest
+      run: |
+        sed -i 's|image: orgitlab/weather_app:.*|image: orgitlab/weather_app:.*|' manifest/deployment.yaml
+ 
+      
+    - name: Commit and push changes 
+      run: |
+        git config --local user.name "GitHub Actions"
+        git config --local user.email "actions@github.com"
+        git add manifests/deployment.yaml
+        git commit -m "Update image to latest version"
+        git push -u origin main    
