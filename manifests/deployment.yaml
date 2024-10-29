@@ -16,6 +16,6 @@ spec:
     spec:
       containers:
       - name: weather-app
-        image: orgitlab/weather_app:5fb1ea3f0cace4f3abc2202deba03f2d8fca2f04
+        image: orgitlab/weather_app:df5b94dc82f7fd6f0d650c8fdf920bbbd51351f9
         ports:
         - containerPort: 5000
