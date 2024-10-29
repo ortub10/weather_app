@@ -30,7 +30,7 @@ jobs:
           
     - name: Update Kubernetes manifest
       run: |
-        sed -i 's|image: orgitlab/weather_app:.*|image: orgitlab/weather_app:.*|' manifests/deployment.yaml
+        sed -i 's|image: orgitlab/weather_app:.*|image: orgitlab/weather_app:${{ github.sha }}|' manifests/deployment.yaml
  
       
     - name: Commit and push changes 
